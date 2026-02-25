@@ -18,7 +18,6 @@ from app.services.events import emit_event
 
 router = APIRouter(prefix="/sessions", tags=["Sessions"])
 
-# ------------------------------
 # REST Endpoints
 # ------------------------------
 
@@ -107,7 +106,6 @@ async def end_session(
         raise HTTPException(status_code=404, detail="Session not found")
 
 
-# ------------------------------
 # WebSocket Endpoint
 # ------------------------------
 

@@ -15,7 +15,6 @@ async def test_create_get_list_update_end_session():
     async with AsyncSessionLocal() as db:
         service = SessionService(db)
 
-        # ---------------------------
         # CREATE SESSION
         # ---------------------------
         new_session = await service.create_session(
@@ -28,23 +27,20 @@ async def test_create_get_list_update_end_session():
         assert new_session.caller_phone == "+1234567890"
 
         session_id = str(new_session.id)
-
-        # ---------------------------
+        
         # GET SESSION
         # ---------------------------
         fetched = await service.get_session(session_id)
         assert fetched is not None
         assert fetched.id == new_session.id
         assert fetched.business_id == "test-business-001"
-
-        # ---------------------------
+       
         # LIST SESSIONS
         # ---------------------------
         sessions = await service.list_sessions(business_id="test-business-001")
         assert len(sessions) >= 1
         assert any(s.id == new_session.id for s in sessions)
 
-        # ---------------------------
         # UPDATE SESSION
         # ---------------------------
         updated = await service.update_status(
@@ -53,7 +49,6 @@ async def test_create_get_list_update_end_session():
         )
         assert updated.status == SessionStatus.transferring.value
 
-        # ---------------------------
         # END SESSION
         # ---------------------------
         ended = await service.end_session(

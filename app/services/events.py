@@ -2,12 +2,6 @@ import asyncio
 import json
 
 
-# async def emit_event(event_name: str, payload: dict):
-#     # For now just simulate async event publishing
-#     await asyncio.sleep(0)
-#     print(f"[EVENT EMITTED] {event_name} -> {json.dumps(payload)}")
-
-
 from app.services.ws_manager import ws_manager
 import asyncio
 import json
