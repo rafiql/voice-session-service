@@ -1,10 +1,12 @@
-# app/schemas/session_schema.py
-
 from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
 from uuid import UUID
 
+from app.models.session import SessionStatus
+
+class UpdateStatusRequest(BaseModel):
+    status: SessionStatus
 
 class CreateSessionRequest(BaseModel):
     caller_phone: str
@@ -25,7 +27,7 @@ class SessionResponse(BaseModel):
     id: UUID
     caller_phone: str
     business_id: str
-    status: str
+    status: SessionStatus
     started_at: Optional[datetime]
     ended_at: Optional[datetime]
     duration_seconds: Optional[int]

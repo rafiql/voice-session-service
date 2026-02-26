@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from app.models.session import CallSession, SessionStatus
 from app.services.events import emit_event
 
+from uuid import UUID
 
 class SessionService:
     def __init__(self, db: AsyncSession):
@@ -23,6 +24,7 @@ class SessionService:
             business_id=business_id,
             ai_config=ai_config,
             started_at=datetime.now(timezone.utc),
+            status=SessionStatus.active
         )
 
         self.db.add(session)

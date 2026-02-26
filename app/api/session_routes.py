@@ -34,9 +34,10 @@ async def create_session(
     )
     return session
 
+
 @router.patch("/{session_id}/status", response_model=SessionResponse)
 async def update_status(
-    session_id: str,
+    session_id: UUID,
     request: UpdateStatusRequest,
     db: AsyncSession = Depends(get_db),
 ):
@@ -47,10 +48,15 @@ async def update_status(
         raise HTTPException(status_code=400, detail="Invalid status")
 
     try:
-        session = await service.update_status(session_id, status)
+        session = await service.update_status(
+            session_id=session_id,
+            status=request.status,  # already SessionStatus enum
+        )
         return session
+    
     except ValueError:
         raise HTTPException(status_code=404, detail="Session not found")
+
 
 @router.get("/{session_id}", response_model=SessionResponse)
 async def get_session(
@@ -62,6 +68,7 @@ async def get_session(
     if not session:
         raise HTTPException(status_code=404, detail="Session not found")
     return session
+
 
 @router.get("", response_model=List[SessionResponse])
 async def list_sessions(
@@ -86,6 +93,7 @@ async def list_sessions(
         limit=limit
     )
     return sessions
+
 
 @router.post("/{session_id}/end", response_model=SessionResponse)
 async def end_session(
